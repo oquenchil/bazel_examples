@@ -14,10 +14,12 @@
 #include "examples/bar.h"
 #include "examples/baz.h"
 #include "examples/qux.h"
+#include "examples/qux2.h"
 
 int foo() {
   bar();
   baz();
   qux();
+  qux2();
   return 42;
 }

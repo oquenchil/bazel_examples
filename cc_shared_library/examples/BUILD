@@ -3,19 +3,19 @@ LINKABLE_MORE_THAN_ONCE = "LINKABLE_MORE_THAN_ONCE"
 cc_binary(
     name = "binary",
     srcs = ["main.cc"],
-    dynamic_deps = ["foo_so"],
+    dynamic_deps = ["foo_shared"],
     deps = ["foo"],
 )
 
 cc_shared_library(
-    name = "foo_so",
+    name = "foo_shared",
     additional_linker_inputs = select({
         "@bazel_tools//src/conditions:linux": [
             ":foo.lds",
         ],
         "//conditions:default": [],
     }),
-    dynamic_deps = ["bar_so"],
+    dynamic_deps = ["bar_shared"],
     roots = [
         "baz",
         "foo",
@@ -33,7 +33,7 @@ cc_shared_library(
 )
 
 cc_shared_library(
-    name = "bar_so",
+    name = "bar_shared",
     additional_linker_inputs = select({
         "@bazel_tools//src/conditions:linux": [":bar.lds"],
         "//conditions:default": [],
@@ -43,9 +43,9 @@ cc_shared_library(
     ],
     roots = [
         "bar",
-        "bar2",
     ],
     static_deps = [
+        "//examples:bar2",
         "//examples:qux2",
     ],
     user_link_flags = select({
@@ -75,6 +75,7 @@ cc_library(
     srcs = ["bar.cc"],
     hdrs = ["bar.h"],
     deps = [
+        "bar2",
         "qux2",
     ],
 )

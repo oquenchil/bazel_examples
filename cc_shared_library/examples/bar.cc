@@ -13,4 +13,6 @@
 // limitations under the License.
 #include "examples/bar.h"
 
-int bar() { return 42; }
+#include "examples/bar2.h"
+
+int bar() { return 42 + bar2(); }
